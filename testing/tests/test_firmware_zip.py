@@ -1,6 +1,6 @@
-
 import os
 import binwalk
+
 
 def test_firmware_zip():
     '''
