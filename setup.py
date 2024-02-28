@@ -4,10 +4,7 @@ import os
 import sys
 import shutil
 import subprocess
-try:
-    from setuptools import setup, Command
-except ImportError:
-    from distutils.core import setup, Command
+from setuptools import setup, Command, find_packages
 from distutils.dir_util import remove_tree
 
 MODULE_NAME = "binwalk"
@@ -299,7 +296,7 @@ setup(
     requires=[],
     python_requires=">=3",
     package_dir={"": "src"},
-    packages=setuptools.find_packages("src"),
+    packages=find_packages("src"),
     include_package_data=True,
     entry_points={
         'console_scripts': ['binwalk=binwalk.__main__:main'],
