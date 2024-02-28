@@ -13,6 +13,7 @@ import binwalk.core.common
 from binwalk.core.exceptions import ModuleException
 from binwalk.core.module import Module, Option, Kwarg
 from binwalk.core.common import file_size, file_md5, unique_file_name, BlockFile
+from binwalk.core.compat import str2bytes
 
 
 class ExtractDetails(object):
