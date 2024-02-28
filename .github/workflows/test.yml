@@ -12,13 +12,12 @@ jobs:
     strategy:
       matrix:
         os:
-          - ubuntu-18.04
           - ubuntu-20.04
+          - ubuntu-22.04
         python-version:
-          - '3.6'
-          - '3.7'
           - '3.8'
           - '3.9'
+          - '3.10'
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v4
@@ -26,6 +25,7 @@ jobs:
           python-version: '${{ matrix.python-version }}'
           cache: pip
           cache-dependency-path: setup.py
+      - run: sudo apt-get update
       - run: ./deps.sh --yes
       - run: pip install coverage nose
       - run: python ./setup.py install
