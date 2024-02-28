@@ -84,7 +84,10 @@ function install_yaffshiv
 function install_sasquatch
 {
     git clone --quiet --depth 1 --branch "master" https://github.com/devttys0/sasquatch
-    (cd sasquatch && $SUDO ./build.sh)
+    (cd sasquatch &&
+        wget https://github.com/devttys0/sasquatch/pull/47.patch &&
+        patch -p1 < 47.patch &&
+        $SUDO ./build.sh)
     $SUDO rm -rf sasquatch
 }
 
@@ -110,14 +113,6 @@ function install_cramfstools
   && $SUDO install cramfsck $INSTALL_LOCATION)
 
   rm -rf cramfs-tools
-}
-
-
-function install_ubireader
-{
-    git clone --quiet --depth 1 --branch "master" https://github.com/jrspruitt/ubi_reader
-    (cd ubi_reader && $SUDO $PYTHON setup.py install)
-    $SUDO rm -rf ubi_reader
 }
 
 function install_pip_package
@@ -236,11 +231,10 @@ if [ $? -ne 0 ]
     echo "Package installation failed: $PKG_CANDIDATES"
     exit 1
 fi
-install_pip_package "setuptools matplotlib capstone pycryptodome gnupg tk"
+install_pip_package "setuptools matplotlib capstone pycryptodome gnupg tk ubi_reader"
 install_sasquatch
 install_yaffshiv
 install_jefferson
-install_ubireader
 
 if [ $distro_version = "18" ]
 then
