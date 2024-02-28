@@ -237,7 +237,7 @@ if [ $? -ne 0 ]
     exit 1
 fi
 install_pip_package "setuptools matplotlib capstone pycryptodome gnupg tk"
-install_sasquatch
+#install_sasquatch
 install_yaffshiv
 install_jefferson
 install_ubireader
