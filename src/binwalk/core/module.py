@@ -740,8 +740,8 @@ class Modules(object):
         modules = {}
         help_string = "\n"
         help_string += "Binwalk v%s\n" % binwalk.__version__
-        help_string += "Craig Heffner, ReFirmLabs\n"
-        help_string += "https://github.com/ReFirmLabs/binwalk\n"
+        help_string += "Original author: Craig Heffner, ReFirmLabs\n"
+        help_string += "https://github.com/OSPG/binwalk\n"
         help_string += "\n"
         help_string += "Usage: binwalk [OPTIONS] [FILE1] [FILE2] [FILE3] ...\n"
 
