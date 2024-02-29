@@ -1,9 +1,9 @@
 # Binwalk
 
 ![Build Status](https://github.com/OSPG/binwalk/actions/workflows/test.yml/badge.svg)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/ReFirmLabs/binwalk/graphs/commit-activity)
-[![GitHub license](https://img.shields.io/github/license/ReFirmLabs/binwalk.svg)](https://github.com/ReFirmLabs/binwalk/blob/master/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/badges/shields.svg?style=social&label=Stars)](https://github.com/ReFirmLabs/binwalk/stargazers)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/OSPG/binwalk/graphs/commit-activity)
+[![GitHub license](https://img.shields.io/github/license/OSPG/binwalk.svg)](https://github.com/OSPG/binwalk/blob/master/LICENSE)
 
 Binwalk is a fast, easy to use tool for analyzing, reverse engineering, and extracting firmware images.
 
@@ -20,12 +20,12 @@ Prior to Binwalk v2.3.3, extracted archives could create symlinks which point an
 
 * [Installation](./INSTALL.md)
 * [API](./API.md)
-* [Supported Platforms](https://github.com/ReFirmLabs/binwalk/wiki/Supported-Platforms)
-* [Getting Started](https://github.com/ReFirmLabs/binwalk/wiki/Quick-Start-Guide)
-* [Binwalk Command Line Usage](https://github.com/ReFirmLabs/binwalk/wiki/Usage)
-* [Binwalk IDA Plugin Usage](https://github.com/ReFirmLabs/binwalk/wiki/Creating-Custom-Plugins)
+* [Supported Platforms](https://github.com/OSPG/binwalk/wiki/Supported-Platforms)
+* [Getting Started](https://github.com/OSPG/binwalk/wiki/Quick-Start-Guide)
+* [Binwalk Command Line Usage](https://github.com/OSPG/binwalk/wiki/Usage)
+* [Binwalk IDA Plugin Usage](https://github.com/OSPG/binwalk/wiki/Creating-Custom-Plugins)
 
-More information on [Wiki](https://github.com/ReFirmLabs/binwalk/wiki)
+More information on [Wiki](https://github.com/OSPG/binwalk/wiki)
 
 # Binwalk Professional Edition
 

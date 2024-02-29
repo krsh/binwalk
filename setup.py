@@ -292,7 +292,7 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     author="Craig Heffner",
-    url="https://github.com/ReFirmLabs/%s" % MODULE_NAME,
+    url="https://github.com/OSPG/%s" % MODULE_NAME,
     requires=[],
     python_requires=">=3",
     package_dir={"": "src"},
