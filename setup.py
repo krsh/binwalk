@@ -277,7 +277,8 @@ class TestCommand(Command):
         pass
 
     def run(self):
-        os.system("py.test --cov=binwalk testing")
+        r  = os.system("py.test --cov=binwalk testing")
+        sys.exit(os.waitstatus_to_exitcode(r))
 
 
 this_directory = os.path.abspath(os.path.dirname(__file__))
