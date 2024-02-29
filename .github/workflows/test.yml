@@ -14,10 +14,13 @@ jobs:
         os:
           - ubuntu-20.04
           - ubuntu-22.04
+          - ubuntu-23.10
         python-version:
           - '3.8'
           - '3.9'
           - '3.10'
+          - '3.11'
+          - '3.12'
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v4
@@ -27,6 +30,6 @@ jobs:
           cache-dependency-path: setup.py
       - run: sudo apt-get update
       - run: ./deps.sh --yes
-      - run: pip install coverage nose
+      - run: pip install coverage pytest
       - run: python ./setup.py install
       - run: python ./setup.py test
