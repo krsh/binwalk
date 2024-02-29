@@ -704,13 +704,18 @@ class Modules(object):
                 modules[module] = module.PRIORITY
 
         # user-defined modules
-        try:
-            import imp
-            load_module_source = imp.load_source
-        except ImportError:
-            # Python 3.12 compatibility
-            import importlib.machinery
-            load_module_source = importlib.machinery.SourceFileLoader
+        import importlib.util
+        import importlib.machinery
+
+        def load_source(modname, filename):
+            loader = importlib.machinery.SourceFileLoader(modname, filename)
+            spec = importlib.util.spec_from_file_location(modname, filename, loader=loader)
+            module = importlib.util.module_from_spec(spec)
+            # The module is always executed and not cached in sys.modules.
+            # Uncomment the following line to cache the module.
+            # sys.modules[module.__name__] = module
+            loader.exec_module(module)
+            return module
 
         user_modules = binwalk.core.settings.Settings().user.modules
 
@@ -719,7 +724,7 @@ class Modules(object):
                 continue
             module_name = file_name[:-3]
             try:
-                user_module = load_module_source(module_name, os.path.join(user_modules, file_name))
+                user_module = load_source(module_name, os.path.join(user_modules, file_name))
             except KeyboardInterrupt as e:
                 raise e
             except Exception as e:

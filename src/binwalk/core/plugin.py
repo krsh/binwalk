@@ -2,19 +2,24 @@
 
 import os
 
-try:
-    import imp
-    load_module_source = imp.load_source
-except ImportError:
-    # Python 3.12 compatibility
-    import importlib.machinery
-    load_module_source = importlib.machinery.SourceFileLoader
-
+import importlib.util
+import importlib.machinery
 
 import inspect
 import binwalk.core.common
 import binwalk.core.settings
 from binwalk.core.exceptions import IgnoreFileException
+
+
+def load_source(modname, filename):
+    loader = importlib.machinery.SourceFileLoader(modname, filename)
+    spec = importlib.util.spec_from_file_location(modname, filename, loader=loader)
+    module = importlib.util.module_from_spec(spec)
+    # The module is always executed and not cached in sys.modules.
+    # Uncomment the following line to cache the module.
+    # sys.modules[module.__name__] = module
+    loader.exec_module(module)
+    return module
 
 
 class Plugin(object):
@@ -188,7 +193,7 @@ class Plugins(object):
                         module = file_name[:-len(self.MODULE_EXTENSION)]
 
                         try:
-                            plugin = load_module_source(module, os.path.join(plugins[key]['path'], file_name))
+                            plugin = load_source(module, os.path.join(plugins[key]['path'], file_name))
                             plugin_class = self._find_plugin_class(plugin)
 
                             plugins[key]['enabled'][module] = True
@@ -230,7 +235,7 @@ class Plugins(object):
                 continue
 
             try:
-                plugin = load_module_source(module, file_path)
+                plugin = load_source(module, file_path)
                 plugin_class = self._find_plugin_class(plugin)
 
                 class_instance = plugin_class(self.parent)
