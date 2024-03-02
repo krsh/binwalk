@@ -1,7 +1,6 @@
 # Binwalk
 
 ![Build Status](https://github.com/OSPG/binwalk/actions/workflows/test.yml/badge.svg)
-[![GitHub stars](https://img.shields.io/github/stars/badges/shields.svg?style=social&label=Stars)](https://github.com/ReFirmLabs/binwalk/stargazers)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/OSPG/binwalk/graphs/commit-activity)
 [![GitHub license](https://img.shields.io/github/license/OSPG/binwalk.svg)](https://github.com/OSPG/binwalk/blob/master/LICENSE)
 
@@ -26,7 +25,3 @@ Prior to Binwalk v2.3.3, extracted archives could create symlinks which point an
 * [Binwalk IDA Plugin Usage](https://github.com/OSPG/binwalk/wiki/Creating-Custom-Plugins)
 
 More information on [Wiki](https://github.com/OSPG/binwalk/wiki)
-
-# Binwalk Professional Edition
-
-After years of developing and supporting binwalk as an open source project we have finally sold out to the man and released a cloud-based firmware extraction engine called *Binwalk Enterprise*. After all someone needs to pay devttys0 so he can buy more milling equipment and feed his children (in that order). Please consider subscribing and reap the benefits of getting actual customer support for all your firmware extraction and analysis needs. Please visit https://www.refirmlabs.com/binwalk-enterprise/ for more information. 
