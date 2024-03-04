@@ -1,7 +1,7 @@
 Before You Start
 ================
 
-Binwalk supports Python 3.6+. 
+Binwalk supports Python 3.8+. 
 
 Installation
 ============
@@ -23,20 +23,13 @@ Besides a Python interpreter, there are no installation dependencies for binwalk
 Binwalk uses Py.test for tests and `pytest-cov` for test coverage:
 
 ```bash
-$ sudo pip install pytest==5.3.2 pytest-cov==2.8.1
-```
-
-Binwalk uses the `pycryptodome` (`pycrypto`-compatible module that is still maintained) library to decrypt some known encrypted firmware images:
-
-```bash
-$ sudo pip install pycryptodome
+$ sudo pip install pytest pytest-cov
 ```
 
 Binwalk uses [pyqtgraph](http://www.pyqtgraph.org) to generate graphs and visualizations, which requires the following (exact dependencies may vary based on your distro refer to `deps.sh` for more details): 
 
 ```bash
-$ sudo apt-get install libqt4-opengl python3-opengl python3-pyqt4 python3-pyqt4.qtopengl python3-numpy python3-scipy python3-pip
-$ sudo pip3 install pyqtgraph
+$ sudo pip install matplotlib
 ```
 
 Binwalk's `--disasm` option requires the [Capstone](http://www.capstone-engine.org/) disassembly framework and its corresponding Python bindings:
