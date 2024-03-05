@@ -13,7 +13,7 @@ import sys
 import io
 import argparse
 
-from wincedecompr import CEDecompressROM
+from binwalk.plugins.wincedecompr import CEDecompressROM
 
 _IMGOFSINCREMENT = 0x1000
 _IMAGE_DOS_SIGNATURE = 0x5A4D
