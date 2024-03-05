@@ -8,10 +8,10 @@ import binwalk.core.common
 from binwalk.core.compat import str2bytes, bytes2str
 from binwalk.core.module import Module, Option, Kwarg
 
-#try:
-#    import numpy as np
-#except ImportError:
-#    pass
+try:
+    import numpy as np
+except ImportError:
+    pass
 try:
     from numba import njit
 except ImportError:
@@ -260,9 +260,9 @@ class Entropy(Module):
     @staticmethod
     @njit
     def _shannon_numpy(data):
-            A = np.frombuffer(data, dtype=np.uint8)
+            A = np.frombuffer(str2bytes(data), dtype=np.uint8)
             pA = np.bincount(A) / len(A)
-            entropy = -np.nansum(pA*np.log2(pA))
+            entropy = -np.nansum(pA*np.log2(pA, where=pA>0))
             return (entropy / 8)
 
     def gzip(self, data, truncate=True):
