@@ -687,7 +687,7 @@ class Magic(object):
                     # but we want to display them as nicely formatted strings.
                     if line.type == 'date':
                         try:
-                            ts = datetime.datetime.utcfromtimestamp(dvalue)
+                            ts = datetime.datetime.fromtimestamp(dvalue, datetime.UTC)
                             dvalue = ts.strftime("%Y-%m-%d %H:%M:%S")
                         except KeyboardInterrupt as e:
                             raise e
