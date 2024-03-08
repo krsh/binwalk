@@ -10,6 +10,8 @@ Binwalk is a fast, easy to use tool for analyzing, reverse engineering, and extr
 
 This is a fork of the original code from ReFirmLabs. This fork is maintained by the community and there is no relation between the maintainers of this fork and the original authors or the original company (though we greatly appreciate their work). 
 
+If you want to contribute feel free to open issues, pull requests, or even ask to be added to the repository to help with reviewing and merging PR. 
+
 
 ### *** Extraction Security Notice ***
 
