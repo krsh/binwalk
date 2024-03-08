@@ -26,7 +26,7 @@ Binwalk uses Py.test for tests and `pytest-cov` for test coverage:
 $ sudo pip install pytest pytest-cov
 ```
 
-Binwalk uses [pyqtgraph](http://www.pyqtgraph.org) to generate graphs and visualizations, which requires the following (exact dependencies may vary based on your distro refer to `deps.sh` for more details): 
+Binwalk uses [matplotlib](https://matplotlib.org/) to generate graphs and visualizations: 
 
 ```bash
 $ sudo pip install matplotlib
