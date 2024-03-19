@@ -208,7 +208,7 @@ if [ $? -ne 0 ]
     echo "Package installation failed: $PKG_CANDIDATES"
     exit 1
 fi
-install_pip_package "setuptools matplotlib capstone pycryptodome gnupg ubi_reader"
+install_pip_package "setuptools matplotlib capstone pycryptodome gnupg ubi_reader poetry"
 install_sasquatch
 install_yaffshiv
 install_jefferson
