@@ -14,7 +14,7 @@ set -x
 
 if ! which lsb_release > /dev/null
 then
-    function lsb_release {
+    lsb_release() {
         if [ -f /etc/os-release ]
         then
             [[ "$1" = "-i" ]] && cat /etc/os-release | grep ^"ID" | cut -d= -f 2
@@ -55,14 +55,14 @@ else
     REQUIRED_UTILS="sudo $REQUIRED_UTILS"
 fi
 
-function install_yaffshiv
+install_yaffshiv()
 {
     git clone --quiet --depth 1 --branch "master" https://github.com/devttys0/yaffshiv
     (cd yaffshiv && $SUDO $PYTHON setup.py install)
     $SUDO rm -rf yaffshiv
 }
 
-function install_sasquatch
+install_sasquatch()
 {
     git clone --quiet --depth 1 --branch "master" https://github.com/devttys0/sasquatch
     (cd sasquatch &&
@@ -72,14 +72,14 @@ function install_sasquatch
     $SUDO rm -rf sasquatch
 }
 
-function install_jefferson
+install_jefferson()
 {
     git clone --quiet --depth 1 --branch "master" https://github.com/sviehb/jefferson
     (cd jefferson && $SUDO $PYTHON -mpip install -r requirements.txt && $SUDO $PYTHON setup.py install)
     $SUDO rm -rf jefferson
 }
 
-function install_cramfstools
+install_cramfstools()
 {
   # Downloads cramfs tools from sourceforge and installs them to $INSTALL_LOCATION
   TIME=`date +%s`
@@ -96,13 +96,13 @@ function install_cramfstools
   rm -rf cramfs-tools
 }
 
-function install_pip_package
+install_pip_package()
 {
     PACKAGE="$1"
     $SUDO $PYTHON -mpip install $PACKAGE
 }
 
-function find_path
+find_path()
 {
     FILE_NAME="$1"
 
