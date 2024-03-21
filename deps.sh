@@ -74,8 +74,8 @@ install_sasquatch()
 
 install_jefferson()
 {
-    git clone --quiet --depth 1 --branch "master" https://github.com/sviehb/jefferson
-    (cd jefferson && $SUDO $PYTHON -mpip install -r requirements.txt && $SUDO $PYTHON setup.py install)
+    git clone --quiet --depth 1 --branch "master" https://github.com/onekey-sec/jefferson
+    (cd jefferson && $PYTHON -mpip install --user jefferson)
     $SUDO rm -rf jefferson
 }
 
