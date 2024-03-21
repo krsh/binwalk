@@ -55,8 +55,8 @@ $ (cd sasquatch && ./build.sh)
 ```bash
 # Install jefferson to extract JFFS2 file systems
 $ sudo pip install cstruct
-$ git clone https://github.com/sviehb/jefferson
-$ (cd jefferson && sudo python setup.py install)
+$ git clone https://github.com/onekey-sec/jefferson
+$ (cd jefferson && sudo pip install --user jefferson)
 ```
 
 ```bash
