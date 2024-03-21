@@ -12,6 +12,9 @@ This is a fork of the original code from ReFirmLabs. This fork is maintained by 
 
 If you want to contribute feel free to open issues, pull requests, or even ask to be added to the repository to help with reviewing and merging PR. 
 
+### Alternative software
+
+There seems to exist a well-maintained alternative called [unblob](https://unblob.org/). According to some reports it has better extraction capabilities (are able to extract more data and faster). The downside is that it doesn't detect as much filetypes as binwalk. Another important difference is the number of dependencies: while binwalk doesn't require any dependency (they are optional), unblob depends on almost 20 packages.
 
 ### *** Extraction Security Notice ***
 
