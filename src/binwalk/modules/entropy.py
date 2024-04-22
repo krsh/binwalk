@@ -285,6 +285,8 @@ class Entropy(Module):
         except ImportError as e:
             return
 
+        plt.rcParams["text.parse_math"] = False
+
         i = 0
         x = []
         y = []
