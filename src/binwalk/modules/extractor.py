@@ -4,6 +4,7 @@
 
 import os
 import re
+import sys
 
 # Windows Python does not have pwd module
 try:
@@ -13,7 +14,6 @@ except ImportError:
 
 import stat
 import shlex
-import tempfile
 import subprocess
 import binwalk.core.common
 from binwalk.core.exceptions import ModuleException, ExtractNotAvail
@@ -631,6 +631,8 @@ class Extractor(Module):
             binwalk.core.common.debug("No extraction rules found for '%s'" % description)
             return (None, None, False, str(None))
         else:
+            if description.startswith("bzip2") and self.extraction_count:
+                return (None, None, False, str(None))
             binwalk.core.common.debug("Found %d matching extraction rules" % len(rules))
 
         # Generate the output directory name where extracted files will be stored
