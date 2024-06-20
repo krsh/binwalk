@@ -57,7 +57,7 @@ class LZMA(object):
             # Try to extract it with all the normal lzma extractors until one
             # works
             for exrule in self.module.extractor.match("lzma compressed data"):
-                if self.module.extractor.execute(exrule['cmd'], file_name) == True:
+                if self.module.extractor.execute(exrule['cmd'], file_name):
                     break
 
     def build_property(self, pb, lp, lc):
@@ -77,7 +77,7 @@ class LZMA(object):
         lp = prop / 9
         lc = prop - lp * 9
 
-        return (pb, lp, lc)
+        return pb, lp, lc
 
     def parse_header(self, header):
         (pb, lp, lc) = self.parse_property(header[0])
@@ -87,7 +87,7 @@ class LZMA(object):
     def build_properties(self):
         self.properties = set()
 
-        if self.module.partial_scan == True:
+        if self.module.partial_scan:
             # For partial scans, only check the most common properties values
             for prop in self.COMMON_PROPERTIES:
                 self.properties.add(chr(prop))
@@ -102,7 +102,7 @@ class LZMA(object):
     def build_dictionaries(self):
         self.dictionaries = []
 
-        if self.module.partial_scan == True:
+        if self.module.partial_scan:
             # For partial scans, only use the largest dictionary value
             self.dictionaries.append(bytes2str(struct.pack("<I", 2 ** 25)))
         else:
@@ -153,11 +153,9 @@ class LZMA(object):
 
 
 class Deflate(object):
-
-    '''
+    """
     Finds and extracts raw deflate compression streams.
-    '''
-
+    """
     ENABLED = False
     BLOCK_SIZE = 33 * 1024
     DESCRIPTION = "Raw deflate compression stream"
@@ -171,7 +169,6 @@ class Deflate(object):
 
     def extractor(self, file_name):
         in_data = ""
-        out_data = ""
         retval = False
         out_file = os.path.splitext(file_name)[0]
 
@@ -189,7 +186,7 @@ class Deflate(object):
                         fp_out.write(out_data)
                     retval = True
                     break
-                except zlib.error as e:
+                except zlib.error:
                     pass
 
         return retval

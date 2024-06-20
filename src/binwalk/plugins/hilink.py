@@ -5,6 +5,7 @@ import string
 import binwalk.core.plugin
 import binwalk.core.compat
 import binwalk.core.common
+
 try:
     # Requires the pycrypto library
     from Crypto.Cipher import DES
@@ -13,10 +14,9 @@ except ImportError as e:
 
 
 class HilinkDecryptor(binwalk.core.plugin.Plugin):
-
-    '''
+    """
     Plugin to decrypt, validate, and extract Hilink encrypted firmware.
-    '''
+    """
     MODULES = ["Signature"]
 
     DES_KEY = "H@L9K*(3"
@@ -32,13 +32,13 @@ class HilinkDecryptor(binwalk.core.plugin.Plugin):
             # Add an extraction rule for encrypted Hilink firmware signature
             # results
             self.module.extractor.add_rule(regex="^%s" % self.SIGNATURE_DESCRIPTION,
-                extension="enc",
-                cmd=self._decrypt_and_extract)
+                                           extension="enc",
+                                           cmd=self._decrypt_and_extract)
 
     def _decrypt_and_extract(self, fname):
-        '''
+        """
         This does the extraction (e.g., it decrypts the image and writes it to a new file on disk).
-        '''
+        """
         with open(fname, "r") as fp_in:
             encrypted_data = fp_in.read()
 
@@ -48,9 +48,9 @@ class HilinkDecryptor(binwalk.core.plugin.Plugin):
                 fp_out.write(decrypted_data)
 
     def _hilink_decrypt(self, encrypted_firmware):
-        '''
+        """
         This does the actual decryption.
-        '''
+        """
         cipher = DES.new(self.DES_KEY, DES.MODE_ECB)
 
         p1 = encrypted_firmware[0:3]
@@ -63,9 +63,9 @@ class HilinkDecryptor(binwalk.core.plugin.Plugin):
         return cipher.decrypt(d1)
 
     def scan(self, result):
-        '''
+        """
         Validate signature results.
-        '''
+        """
         if self.enabled is True:
             if result.valid is True:
                 if result.description.lower().startswith(self.SIGNATURE_DESCRIPTION) is True:
@@ -81,10 +81,11 @@ class HilinkDecryptor(binwalk.core.plugin.Plugin):
                     # Pull out the image size and image name fields from the decrypted uImage header
                     # and add them to the printed description.
                     result.size = struct.unpack(b">L", decrypted_header_data[12:16])[0]
-                    result.description += ", size: %d" % (result.size)
+                    result.description += ", size: %d" % result.size
                     # NOTE: The description field should be 32 bytes? Hilink seems to use only 24 bytes for this field,
                     #       even though the header size is still 64 bytes?
-                    result.description += ', image name: "%s"' % binwalk.core.compat.bytes2str(decrypted_header_data[32:56]).strip("\x00")
+                    result.description += ', image name: "%s"' % binwalk.core.compat.bytes2str(
+                        decrypted_header_data[32:56]).strip("\x00")
 
                     # Do some basic validation on the decrypted size and image
                     # name fields

@@ -7,9 +7,9 @@ from binwalk.core.compat import str2bytes
 
 class ZLIBExtractPlugin(binwalk.core.plugin.Plugin):
 
-    '''
+    """
     Zlib extractor plugin.
-    '''
+    """
     MODULES = ['Signature']
 
     def init(self):
@@ -35,7 +35,7 @@ class ZLIBExtractPlugin(binwalk.core.plugin.Plugin):
             fpout.close()
         except KeyboardInterrupt as e:
             raise e
-        except Exception as e:
+        except Exception:
             return False
 
         return True

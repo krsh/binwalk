@@ -1,4 +1,3 @@
-import time
 import math
 import binwalk.core.plugin
 
@@ -55,7 +54,7 @@ class TarPlugin(binwalk.core.plugin.Plugin):
                     try:
                         size = self.nti(buf[124:136])
                         blocks = math.ceil(size / float(self.TAR_BLOCKSIZE)) + 1
-                    except ValueError as e:
+                    except ValueError:
                         is_tar = False
                         break
 

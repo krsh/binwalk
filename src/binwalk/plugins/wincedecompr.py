@@ -6,16 +6,17 @@ WinCE Decompressor: Decompress compressed files from Windows CE ROMs.
 
 """
 
-import csv
 import ctypes
 import io
 import os
 import argparse
 
+
 class UnsupportedWindowSizeRange(Exception):
     """
     Exception to deal with window sizes out of range.
     """
+
     def __init__(self):
         super().__init__()
 
@@ -43,6 +44,7 @@ class LZXConstants(object):
         """
         An enum type for the different types of blocks in LZX.
         """
+
         def __init__(self, value):
             self.value = value
 
@@ -97,6 +99,7 @@ class LZXState(object):
     """
     Holds the current state of LZX decompression.
     """
+
     def __init__(self, window):
         if window < 15 or window > 21:
             raise UnsupportedWindowSizeRange()
@@ -121,7 +124,7 @@ class LZXState(object):
         self.lentree_table = [0] * ((1 << LZXConstants.LENTREE_TABLEBITS) + (LZXConstants.LENTREE_MAXSYMBOLS << 1))
         self.lentree_len = [0] * (LZXConstants.LENTREE_MAXSYMBOLS + LZXConstants.LENTABLE_SAFETY)
         self.aligntree_table = [0] * (
-                (1 << LZXConstants.ALIGNTREE_TABLEBITS) + (LZXConstants.ALIGNTREE_MAXSYMBOLS << 1))
+            (1 << LZXConstants.ALIGNTREE_TABLEBITS) + (LZXConstants.ALIGNTREE_MAXSYMBOLS << 1))
         self.aligntree_len = [0] * (LZXConstants.ALIGNTREE_MAXSYMBOLS + LZXConstants.LENTABLE_SAFETY)
 
         self.window_size = 1 << (window & 0x1f)
@@ -183,7 +186,7 @@ class LZXDecoder(object):
                                              self.state.aligntree_len, self.state.aligntree_table)
 
                 if self.state.block_type == LZXConstants.BLOCKTYPE_VERBATIM or \
-                        self.state.block_type == LZXConstants.BLOCKTYPE_ALIGNED:
+                    self.state.block_type == LZXConstants.BLOCKTYPE_ALIGNED:
                     self.__read_lengths(self.state.maintree_len, 0, 256, bit_buf)
                     self.__read_lengths(self.state.maintree_len, 256, self.state.main_elements, bit_buf)
                     LZXDecoder.__make_decode_table(LZXConstants.MAINTREE_MAXSYMBOLS, LZXConstants.MAINTREE_TABLEBITS,
@@ -219,8 +222,7 @@ class LZXDecoder(object):
             if self.state.window_posn + self.state.block_remaining > self.state.window_size:
                 return -1
 
-            if self.state.block_type == LZXConstants.BLOCKTYPE_VERBATIM or \
-                    self.state.block_type == LZXConstants.BLOCKTYPE_ALIGNED:
+            if self.state.block_type == LZXConstants.BLOCKTYPE_VERBATIM or self.state.block_type == LZXConstants.BLOCKTYPE_ALIGNED:
                 # Block Type: Verbatim or Aligned
                 self.__decompress_block(bit_buf)
             elif self.state.block_type == LZXConstants.BLOCKTYPE_UNCOMPRESSED:
@@ -623,7 +625,8 @@ def bin_decompress_rom(read_buffer, amount, decompressed_buffer):
     window_size = int.from_bytes(in_binary_memory_file.read(4), byteorder='little')
     decompressed_size = int.from_bytes(in_binary_memory_file.read(4), byteorder='little')
 
-    int.from_bytes(in_binary_memory_file.read(8), byteorder='little')  # We do not need these 8 bytes of information, so we can move past it.
+    int.from_bytes(in_binary_memory_file.read(8),
+                   byteorder='little')  # We do not need these 8 bytes of information, so we can move past it.
 
     decoder = LZXDecoder(window_size)
     status = decoder.decompress(in_binary_memory_file, amount, out_binary_memory_file, decompressed_size)
@@ -715,5 +718,5 @@ if __name__ == '__main__':
             exit(1)
         else:
             base_name = os.path.basename(file_name)
-            with open(os.path.join(uncompressed_dir, base_name),'w+b') as uncompressed_file:
+            with open(os.path.join(uncompressed_dir, base_name), 'w+b') as uncompressed_file:
                 uncompressed_file.write(dcbuf[:buflen])

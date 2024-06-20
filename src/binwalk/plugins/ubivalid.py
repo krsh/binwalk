@@ -6,11 +6,11 @@ from binwalk.core.compat import str2bytes
 
 class UBIValidPlugin(binwalk.core.plugin.Plugin):
 
-    '''
+    """
     Helps validate UBI erase count signature results.
 
     Checks header CRC and calculates jump value
-    '''
+    """
     MODULES = ['Signature']
     current_file = None
     last_ec_hdr_offset = None

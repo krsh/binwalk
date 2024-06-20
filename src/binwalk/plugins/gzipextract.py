@@ -5,9 +5,9 @@ import binwalk.core.plugin
 
 class GzipExtractPlugin(binwalk.core.plugin.Plugin):
 
-    '''
+    """
     Gzip extractor plugin.
-    '''
+    """
     MODULES = ['Signature']
     BLOCK_SIZE = 10 * 1024
 
@@ -41,7 +41,7 @@ class GzipExtractPlugin(binwalk.core.plugin.Plugin):
             fpout.close()
         except KeyboardInterrupt as e:
             raise e
-        except Exception as e:
+        except Exception:
             return False
 
         return True

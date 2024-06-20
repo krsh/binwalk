@@ -14,7 +14,6 @@ class StatusRequestHandler(socketserver.BaseRequestHandler):
     def handle(self):
         message_format = "%s     %3d%%     [ %d / %d ]"
         last_status_message_len = 0
-        status_message = ''
         message_sent = False
 
         self.server.binwalk.status.running = True
@@ -32,11 +31,12 @@ class StatusRequestHandler(socketserver.BaseRequestHandler):
                     break
 
                 if self.server.binwalk.status.total != 0:
-                    percentage = ((float(self.server.binwalk.status.completed) / float(self.server.binwalk.status.total)) * 100)
+                    percentage = ((float(self.server.binwalk.status.completed) / float(
+                        self.server.binwalk.status.total)) * 100)
                     status_message = message_format % (self.server.binwalk.status.fp.path,
-                        percentage,
-                        self.server.binwalk.status.completed,
-                        self.server.binwalk.status.total)
+                                                       percentage,
+                                                       self.server.binwalk.status.completed,
+                                                       self.server.binwalk.status.total)
                 elif not message_sent:
                     status_message = "No status information available at this time!"
                 else:
@@ -63,7 +63,6 @@ class ThreadedStatusServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
 
 
 class StatusServer(object):
-
     def __init__(self, port, binwalk):
         self.server = ThreadedStatusServer(('127.0.0.1', port), StatusRequestHandler)
         self.server.binwalk = binwalk

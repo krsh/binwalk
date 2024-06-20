@@ -18,8 +18,8 @@ except ImportError:
     def njit(func):
         return func
 
-class Entropy(Module):
 
+class Entropy(Module):
     XLABEL = 'Offset'
     YLABEL = 'Entropy'
 
@@ -118,7 +118,7 @@ class Entropy(Module):
 
                     self.file_markers[result.file.name].append((result.offset, description))
 
-        # If other modules have been run and they produced results, don't spam
+        # If other modules have been run, and they produced results, don't spam
         # the terminal with entropy results
         if self.file_markers:
             self.display_results = False
@@ -130,7 +130,7 @@ class Entropy(Module):
                 self.block_size = None
 
     def _entropy_sigterm_handler(self, *args):
-        print ("Fuck it all.")
+        print("Fuck it all.")
 
     def run(self):
         self._run()
@@ -140,14 +140,15 @@ class Entropy(Module):
         if self.do_plot:
             try:
                 # If we're saving the plot to a file, configure matplotlib
-                # to use the Agg back-end. This does not require a X server,
+                # to use the Agg back-end. This does not require an X server,
                 # allowing users to generate plot files on headless systems.
                 if self.save_plot:
                     import matplotlib as mpl
                     mpl.use('Agg')
                 import matplotlib.pyplot as plt
             except ImportError as e:
-                binwalk.core.common.warning("Failed to import matplotlib module, visual entropy graphing will be disabled")
+                binwalk.core.common.warning(
+                    "Failed to import matplotlib module, visual entropy graphing will be disabled")
                 self.do_plot = False
 
         for fp in iter(self.next_file, None):
@@ -220,11 +221,11 @@ class Entropy(Module):
                         display = False
                         description = "%f" % entropy
 
-                r = self.result(offset=(file_offset + i),
-                                file=fp,
-                                entropy=entropy,
-                                description=description,
-                                display=display)
+                self.result(offset=(file_offset + i),
+                            file=fp,
+                            entropy=entropy,
+                            description=description,
+                            display=display)
 
                 i += block_size
 
@@ -232,9 +233,9 @@ class Entropy(Module):
             self.plot_entropy(fp.name)
 
     def shannon(self, data):
-        '''
+        """
         Performs a Shannon entropy analysis on a given block of data.
-        '''
+        """
         entropy = 0
 
         if data:
@@ -249,27 +250,27 @@ class Entropy(Module):
                 if p_x > 0:
                     entropy -= p_x * math.log(p_x, 2)
 
-        return (entropy / 8)
+        return entropy / 8
 
     def shannon_numpy(self, data):
         if data:
             return self._shannon_numpy(bytes2str(data))
         else:
             return 0
-    
+
     @staticmethod
     @njit
     def _shannon_numpy(data):
-            A = np.frombuffer(str2bytes(data), dtype=np.uint8)
-            pA = np.bincount(A) / len(A)
-            entropy = -np.nansum(pA*np.log2(pA, where=pA>0))
-            return (entropy / 8)
+        A = np.frombuffer(str2bytes(data), dtype=np.uint8)
+        pA = np.bincount(A) / len(A)
+        entropy = -np.nansum(pA * np.log2(pA, where=pA > 0))
+        return entropy / 8
 
     def gzip(self, data, truncate=True):
-        '''
+        """
         Performs an entropy analysis based on zlib compression ratio.
         This is faster than the shannon entropy analysis, but not as accurate.
-        '''
+        """
         # Entropy is a simple ratio of: <zlib compressed size> / <original
         # size>
         e = float(float(len(zlib.compress(str2bytes(data), 9))) / float(len(data)))
@@ -282,7 +283,7 @@ class Entropy(Module):
     def plot_entropy(self, fname):
         try:
             import matplotlib.pyplot as plt
-        except ImportError as e:
+        except ImportError:
             return
 
         plt.rcParams["text.parse_math"] = False
@@ -313,8 +314,8 @@ class Entropy(Module):
 
         # Add a fake, invisible plot entry so that offsets at/near the
         # minimum x value (0) are actually visible on the plot.
-        ax.plot(-(max(x)*.001), 1.1, lw=0)
-        ax.plot(-(max(x)*.001), 0, lw=0)
+        ax.plot(-(max(x) * .001), 1.1, lw=0)
+        ax.plot(-(max(x) * .001), 0, lw=0)
 
         if self.show_legend and fname in self.file_markers:
             for (offset, description) in self.file_markers[fname]:
@@ -344,4 +345,3 @@ class Entropy(Module):
             fig.savefig(self.output_file, bbox_inches='tight')
         else:
             plt.show()
-

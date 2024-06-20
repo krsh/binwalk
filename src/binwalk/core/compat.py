@@ -7,10 +7,10 @@ if PY_MAJOR_VERSION > 2:
     string.letters = string.ascii_letters
 
 
-def str2bytes(string):
-    if isinstance(string, str):
-        return bytes(string, 'latin1')
-    return string
+def str2bytes(s):
+    if isinstance(s, str):
+        return bytes(s, 'latin1')
+    return s
 
 
 def bytes2str(bs):

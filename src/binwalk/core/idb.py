@@ -6,11 +6,10 @@ import logging
 
 
 class ShutUpHashlib(logging.Filter):
-
-    '''
+    """
     This is used to suppress hashlib exception messages
     if using the Python interpreter bundled with IDA.
-    '''
+    """
 
     def filter(self, record):
         return not record.getMessage().startswith("code for hash")
@@ -41,15 +40,14 @@ def end_address():
 
 
 class IDBFileIO(io.FileIO):
-
-    '''
+    """
     A custom class to override binwalk.core.common.Blockfile in order to
     read data directly out of the IDB, rather than reading from the original
     file on disk, which may or may not still exist.
 
     Requests to read from files that are not the current IDB are just forwarded
     up to io.FileIO.
-    '''
+    """
 
     def __init__(self, fname, mode):
         if idc.GetIdbPath() != fname:
@@ -80,7 +78,6 @@ class IDBFileIO(io.FileIO):
             return super(IDBFileIO, self).read(n)
         else:
             data = ''
-            read_count = 0
             filler_count = 0
 
             # Loop to read n bytes of data across IDB segments, filling
@@ -104,7 +101,7 @@ class IDBFileIO(io.FileIO):
 
                     try:
                         data += idc.GetManyBytes(self.idb_pos, read_count)
-                    except TypeError as e:
+                    except TypeError:
                         # This happens when trying to read from uninitialized
                         # segments (e.g., .bss)
                         data += "\x00" * read_count
@@ -114,7 +111,6 @@ class IDBFileIO(io.FileIO):
 
             if filler_count:
                 data += "\x00" * filler_count
-                filler_count = 0
 
             return data
 

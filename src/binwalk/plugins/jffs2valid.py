@@ -6,13 +6,13 @@ from binwalk.core.compat import str2bytes
 
 class JFFS2ValidPlugin(binwalk.core.plugin.Plugin):
 
-    '''
+    """
     Helps validate JFFS2 signature results.
 
     The JFFS2 signature rules catch obvious cases, but inadvertently
     mark some valid JFFS2 nodes as invalid due to  padding (0xFF's or
     0x00's) in between nodes.
-    '''
+    """
     MODULES = ['Signature']
 
     def _check_crc(self, node_header):
@@ -29,7 +29,7 @@ class JFFS2ValidPlugin(binwalk.core.plugin.Plugin):
         calculated_header_crc = (binascii.crc32(node_header[0:8], -1) ^ -1) & 0xffffffff
 
         # Make sure they match
-        return (header_crc == calculated_header_crc)
+        return header_crc == calculated_header_crc
 
     def scan(self, result):
         if result.file and result.description.lower().startswith('jffs2 filesystem'):
