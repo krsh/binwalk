@@ -60,13 +60,12 @@ class HexDiff(Module):
     RESULT_FORMAT = "%s\n"
     RESULT = ['display']
 
-    def _no_colorize(self, c, color="red", bold=True):
+    def _no_colorize(self, c):
         return c
 
     def _colorize(self, c, color="red", bold=True):
-        attr = []
+        attr = [self.COLORS[color]]
 
-        attr.append(self.COLORS[color])
         if bold:
             attr.append('1')
 
@@ -99,7 +98,7 @@ class HexDiff(Module):
                 try:
                     if data_i[offset] != data_j[offset]:
                         diff_count += 1
-                except IndexError as e:
+                except IndexError:
                     diff_count += 1
 
             if diff_count == len(target_data) - 1:
@@ -115,7 +114,7 @@ class HexDiff(Module):
 
         asciibyte = self.colorize(byte, color)
 
-        return (hexbyte, asciibyte)
+        return hexbyte, asciibyte
 
     def diff_files(self, target_files):
         last_raw_line = None
@@ -174,7 +173,7 @@ class HexDiff(Module):
 
             offset = fp.offset + (self.block * loop_count)
 
-            if current_raw_line == last_raw_line and self.show_same == True:
+            if current_raw_line == last_raw_line and self.show_same:
                 display = line = self.SAME_DIFFERENCE
             elif not self._color_filter(line):
                 display = line = self.SKIPPED_LINE

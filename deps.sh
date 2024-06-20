@@ -82,7 +82,7 @@ install_jefferson()
 install_cramfstools()
 {
   # Downloads cramfs tools from sourceforge and installs them to $INSTALL_LOCATION
-  TIME=`date +%s`
+  TIME=$(date +%s)
   INSTALL_LOCATION=/usr/local/bin
 
   # https://github.com/torvalds/linux/blob/master/fs/cramfs/README#L106

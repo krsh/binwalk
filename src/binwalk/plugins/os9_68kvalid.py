@@ -2,8 +2,9 @@ import struct
 
 import binwalk.core.plugin
 
+
 class MWOS9_68000Validate(binwalk.core.plugin.Plugin):
-    # This module does a header parity check to verify it is a OS-9 module
+    # This module does a header parity check to verify it is an OS-9 module
     parity = 0
 
     def _header_parity(self, string):
@@ -12,6 +13,7 @@ class MWOS9_68000Validate(binwalk.core.plugin.Plugin):
         for short in shorts:
             parity ^= short
         return ~parity
+
     def scan(self, result):
         if result.description.lower().startswith('microware os-9/68000 module'):
             fd = self.module.config.open_file(result.file.path, offset=result.offset)

@@ -3,6 +3,7 @@ import zlib
 import struct
 import binwalk.core.plugin
 import binwalk.core.common
+
 try:
     import lzma
 except ImportError as e:
@@ -33,7 +34,7 @@ class RomFSCommon(object):
             byte = self.data[self.index]
             try:
                 byte = chr(byte)
-            except TypeError as e:
+            except TypeError:
                 pass
 
             if byte == "\x00":
@@ -45,7 +46,6 @@ class RomFSCommon(object):
 
 
 class RomFSEntry(RomFSCommon):
-
     DIR_STRUCT_MASK = 0x00000001
     DATA_MASK = 0x00000008
     COMPRESSED_MASK = 0x005B0000
@@ -66,7 +66,6 @@ class RomFSEntry(RomFSCommon):
 
 
 class RomFSDirStruct(RomFSCommon):
-
     SIZE = 0x20
 
     def __init__(self, data, endianness="<"):
@@ -103,7 +102,7 @@ class RomFSDirStruct(RomFSCommon):
             if mod > 0:
                 remainder = self._read_next_block(mod)
 
-            yield (uid, entry)
+            yield uid, entry
 
 
 class FileContainer(object):
@@ -113,7 +112,6 @@ class FileContainer(object):
 
 
 class RomFS(object):
-
     SUPERBLOCK_SIZE = 0x20
     FILE_ENTRY_SIZE = 0x20
 
@@ -132,12 +130,12 @@ class RomFS(object):
             data = lzma.decompress(data)
         except KeyboardInterrupt as e:
             raise e
-        except Exception as e:
+        except Exception:
             try:
                 data = zlib.decompress(data)
             except KeyboardInterrupt as e:
                 raise e
-            except Exception as e:
+            except Exception:
                 pass
 
         return data
@@ -158,7 +156,7 @@ class RomFS(object):
         while True:
             try:
                 entry = RomFSEntry(self.data[offset:offset + self.FILE_ENTRY_SIZE], endianness=self.endianness)
-            except ValueError as e:
+            except ValueError:
                 break
 
             if not entry.uid in entries:
@@ -193,15 +191,14 @@ if __name__ == '__main__':
         infile = sys.argv[1]
         outdir = sys.argv[2]
     except IndexError as e:
-        print ("Usage: %s <input file> <output directory>" % sys.argv[0])
+        print("Usage: %s <input file> <output directory>" % sys.argv[0])
         sys.exit(1)
 
 
 class DlinkROMFSExtractPlugin(binwalk.core.plugin.Plugin):
-
-    '''
+    """
     Gzip extractor plugin.
-    '''
+    """
     MODULES = ['Signature']
     BLOCK_SIZE = 10 * 1024
 

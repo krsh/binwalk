@@ -3,13 +3,13 @@ import subprocess
 import binwalk.core.common
 import binwalk.core.plugin
 
-class CPIOPlugin(binwalk.core.plugin.Plugin):
 
-    '''
+class CPIOPlugin(binwalk.core.plugin.Plugin):
+    """
     Ensures that ASCII CPIO archive entries only get extracted once.
     Also provides an internal CPIO extraction wrapper around the Unix
     cpio utility since no output directory can be provided to it directly.
-    '''
+    """
     CPIO_OUT_DIR = "cpio-root"
     CPIO_HEADER_SIZE = 110
 
@@ -44,7 +44,7 @@ class CPIOPlugin(binwalk.core.plugin.Plugin):
             return False
 
         try:
-            result = subprocess.call(['cpio', '-d', '-i', '--no-absolute-filenames'],
+            result = subprocess.call(['cpio', '-d', '-i', '--preserve-modification-time', '--no-absolute-filenames'],
                                      stdin=fpin,
                                      stderr=fperr,
                                      stdout=fperr)
@@ -148,4 +148,3 @@ class CPIOPlugin(binwalk.core.plugin.Plugin):
                 # TODO: It would be better to jump to the end of this CPIO
                 # entry rather than make this assumption...
                 result.valid = False
-

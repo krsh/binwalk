@@ -18,6 +18,7 @@ class PFSCommon(object):
         data = str2bytes(data)
         return struct.unpack('%sI' % endianness, data)[0]
 
+
 class PFS(PFSCommon):
     """Class for accessing PFS meta-data."""
     HEADER_SIZE = 16
@@ -41,12 +42,12 @@ class PFS(PFSCommon):
         return bufflen
 
     def _get_node(self):
-        """Reads a chunk of meta data from file and returns a PFSNode."""
+        """Reads a chunk of metadata from file and returns a PFSNode."""
         data = self.meta.read(self.node_size)
         return PFSNode(data, self.endianness)
 
     def get_end_of_meta_data(self):
-        """Returns integer indicating the end of the file system meta data."""
+        """Returns integer indicating the end of the file system metadata."""
         return self.HEADER_SIZE + self.node_size * self.num_files
 
     def entries(self):
@@ -60,6 +61,7 @@ class PFS(PFSCommon):
 
     def __exit__(self, type, value, traceback):
         self.meta.close()
+
 
 class PFSNode(PFSCommon):
     """A node in the PFS Filesystem containing meta-data about a single file."""
@@ -75,6 +77,7 @@ class PFSNode(PFSCommon):
         """Extracts the actual string from the available bytes."""
         self.fname = self.fname[:self.fname.find('\0')]
         self.fname = self.fname.replace('\\', '/')
+
 
 class PFSExtractor(binwalk.core.plugin.Plugin):
     """
@@ -101,7 +104,7 @@ class PFSExtractor(binwalk.core.plugin.Plugin):
 
         try:
             with PFS(fname) as fs:
-                # The end of PFS meta data is the start of the actual data
+                # The end of PFS metadata is the start of the actual data
                 data = binwalk.core.common.BlockFile(fname, 'rb')
                 data.seek(fs.get_end_of_meta_data())
                 for entry in fs.entries():
@@ -116,7 +119,7 @@ class PFSExtractor(binwalk.core.plugin.Plugin):
                 data.close()
         except KeyboardInterrupt as e:
             raise e
-        except Exception as e:
+        except Exception:
             return False
 
         return True

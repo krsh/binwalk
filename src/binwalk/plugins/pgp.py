@@ -6,6 +6,7 @@ import tempfile
 import binwalk.core.plugin
 import binwalk.core.compat
 import binwalk.core.common
+
 try:
     # Requires the python-gnupg library
     from gnupg import GPG
@@ -14,10 +15,9 @@ except ImportError as e:
 
 
 class PgpDecryptor(binwalk.core.plugin.Plugin):
-
-    '''
+    """
     Plugin to decrypt, validate, and extract PGP encrypted firmware.
-    '''
+    """
     MODULES = ["Signature"]
 
     EDDA2E82EDC7030C_KEY = """-----BEGIN PGP PRIVATE KEY BLOCK-----
@@ -208,17 +208,17 @@ ZKRdu7NkEp9EYhvl/vM=
             # Add extraction rules for encrypted PGP firmware signature
             # results
             self.module.extractor.add_rule(txtrule=None,
-                regex="^%s" % self.EDDA2E82EDC7030C_SIGNATURE_DESCRIPTION,
-                extension="gpg",
-                cmd=self._decrypt_and_extract_EDDA2E82EDC7030C)
+                                           regex="^%s" % self.EDDA2E82EDC7030C_SIGNATURE_DESCRIPTION,
+                                           extension="gpg",
+                                           cmd=self._decrypt_and_extract_EDDA2E82EDC7030C)
             self.module.extractor.add_rule(txtrule=None,
-                regex="^%s" % self.F18B47DF3F881C75_SIGNATURE_DESCRIPTION,
-                extension="gpg",
-                cmd=self._decrypt_and_extract_F18B47DF3F881C75)
+                                           regex="^%s" % self.F18B47DF3F881C75_SIGNATURE_DESCRIPTION,
+                                           extension="gpg",
+                                           cmd=self._decrypt_and_extract_F18B47DF3F881C75)
             self.module.extractor.add_rule(txtrule=None,
-                regex="^%s" % self._6F6BE91DF2D929B6_SIGNATURE_DESCRIPTION,
-                extension="gpg",
-                cmd=self._decrypt_and_extract_6F6BE91DF2D929B6)
+                                           regex="^%s" % self._6F6BE91DF2D929B6_SIGNATURE_DESCRIPTION,
+                                           extension="gpg",
+                                           cmd=self._decrypt_and_extract_6F6BE91DF2D929B6)
 
     def _decrypt_and_extract_EDDA2E82EDC7030C(self, fname):
         return self._decrypt_and_extract(fname, self.EDDA2E82EDC7030C_KEY)
@@ -230,9 +230,9 @@ ZKRdu7NkEp9EYhvl/vM=
         return self._decrypt_and_extract(fname, self._6F6BE91DF2D929B6_KEY)
 
     def _decrypt_and_extract(self, fname, key):
-        '''
+        """
         This does the extraction (e.g., it decrypts the image and writes it to a new file on disk).
-        '''
+        """
         with open(fname, "rb") as fp_in:
             encrypted_data = fp_in.read()
 
@@ -243,9 +243,9 @@ ZKRdu7NkEp9EYhvl/vM=
         return True
 
     def _pgp_decrypt(self, encrypted_firmware, key):
-        '''
+        """
         This does the actual decryption.
-        '''
+        """
         try:
             tmp_dir = tempfile.mkdtemp()
             gpg = GPG(gnupghome=tmp_dir)
@@ -261,9 +261,9 @@ ZKRdu7NkEp9EYhvl/vM=
         return bytes(decrypted_data.data)
 
     def scan(self, result):
-        '''
+        """
         Validate signature results.
-        '''
+        """
         if result.valid is True:
             if result.description.lower().startswith(self.EDDA2E82EDC7030C_SIGNATURE_DESCRIPTION) is True:
                 result.description += ", Verizon BHR4 <eu@greenwavereality.com>"

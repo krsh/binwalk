@@ -23,6 +23,7 @@ for _module_path in [
 import binwalk
 import binwalk.modules
 
+
 def runme():
     with binwalk.Modules() as modules:
         try:
@@ -41,8 +42,9 @@ def runme():
                     sys.stderr.write("Error: Signature scans not supported; ")
                     sys.stderr.write("make sure you have python-lzma installed and try again.\n")
                     sys.exit(2)
-        except binwalk.ModuleException as e:
+        except binwalk.ModuleException:
             sys.exit(3)
+
 
 def main():
     try:
@@ -61,4 +63,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

@@ -8,6 +8,7 @@ try:
 except ImportError:
     __version__ = '(unknown)'
 
+
 # Convenience functions
 def scan(*args, **kwargs):
     with Modules(*args, **kwargs) as m:

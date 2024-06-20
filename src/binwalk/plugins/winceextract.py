@@ -4,12 +4,12 @@ import os
 
 from binwalk.plugins.winceextractor import WinCEExtractor
 
-class WinceExtract(binwalk.core.plugin.Plugin):
 
+class WinceExtract(binwalk.core.plugin.Plugin):
     MODULES = ['Signature']
 
-    ROM_DESCRIPTION_RE  = re.compile(r"^windows ce memory segment header, toc address: 0x([0-9a-fA-F]+)$", re.IGNORECASE)
-    SEGMENT_NAMES       = [".text", ".data", ".pdata", ".rsrc", ".other"]
+    ROM_DESCRIPTION_RE = re.compile(r"^windows ce memory segment header, toc address: 0x([0-9a-fA-F]+)$", re.IGNORECASE)
+    SEGMENT_NAMES = [".text", ".data", ".pdata", ".rsrc", ".other"]
 
     def init(self):
         """
@@ -26,7 +26,7 @@ class WinceExtract(binwalk.core.plugin.Plugin):
                                            cmd=self.extractor)
 
         self.image_start = None
-            
+
     def scan(self, result):
         """
         Called everytime binwalk finds a signature in a file. If the signature
@@ -52,8 +52,8 @@ class WinceExtract(binwalk.core.plugin.Plugin):
 
         :return: None
         """
-        infile      = os.path.abspath(fname)
-        indir       = os.path.dirname(infile)
+        infile = os.path.abspath(fname)
+        indir = os.path.dirname(infile)
 
         with open(infile, 'r+b') as f:
             with WinCEExtractor(f, 0) as extractor:

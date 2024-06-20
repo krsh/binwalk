@@ -5,9 +5,9 @@ from binwalk.core.compat import str2bytes
 
 class LZMAPlugin(binwalk.core.plugin.Plugin):
 
-    '''
+    """
     Validates lzma signature results.
-    '''
+    """
     MODULES = ['Signature']
 
     # Some lzma files exclude the file size, so we have to put it back in.
@@ -24,7 +24,7 @@ class LZMAPlugin(binwalk.core.plugin.Plugin):
             except ImportError:
                 from backports import lzma
             self.decompressor = lzma.decompress
-        except ImportError as e:
+        except ImportError:
             self.decompressor = None
 
     def is_valid_lzma(self, data):
@@ -48,7 +48,7 @@ class LZMAPlugin(binwalk.core.plugin.Plugin):
         return valid
 
     def scan(self, result):
-        # If this result is an lzma signature match, try to decompress the data
+        # If this result is a lzma signature match, try to decompress the data
         if result.valid and result.file and result.description.lower().startswith('lzma compressed data'):
 
             # Seek to and read the suspected lzma data
