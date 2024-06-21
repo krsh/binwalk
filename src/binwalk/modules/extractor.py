@@ -179,6 +179,7 @@ class Extractor(Module):
         self.output = {}
         # Number of extracted files
         self.extraction_count = 0
+        self.previous_description = ''
         # Override the directory name used for extraction output directories
         self.output_directory_override = None
 
@@ -635,10 +636,11 @@ class Extractor(Module):
             binwalk.core.common.debug("No extraction rules found for '%s'" % description)
             return None, None, False, str(None)
         else:
-            if description.startswith("bzip2") and self.extraction_count:
+            if (self.previous_description.startswith("UBIFS") or
+               (description.startswith("bzip2") and self.extraction_count)):
                 return None, None, False, str(None)
             binwalk.core.common.debug("Found %d matching extraction rules" % len(rules))
-
+            self.previous_description = description
         # Generate the output directory name where extracted files will be stored
         output_directory = self.build_output_directory(file_name)
 
