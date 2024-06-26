@@ -636,6 +636,10 @@ class Extractor(Module):
             binwalk.core.common.debug("No extraction rules found for '%s'" % description)
             return None, None, False, str(None)
         else:
+            # For Raucb files
+            if (description.startswith("Squashfs")) and not self.extraction_count:
+                for item in rules:
+                    item['recurse'] = True
             if (self.previous_description.startswith("UBIFS") or
                (description.startswith("bzip2") and self.extraction_count)):
                 return None, None, False, str(None)
